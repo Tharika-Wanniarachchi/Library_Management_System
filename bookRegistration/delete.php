@@ -6,7 +6,16 @@ include 'connect.php';
 if(isset($_GET['deleteid'])){
     $book_id=$_GET['deleteid'];
 
-    // First, delete associated fines
+    // First, delete associated records from the bookborrower table
+    $delete_bookborrower_sql = "DELETE FROM bookborrower WHERE book_id='$book_id'";
+    $delete_bookborrower_result = mysqli_query($con, $delete_bookborrower_sql);
+
+    if(!$delete_bookborrower_result) {
+        header('location:index.php?delete_msg=Failed to delete associated book borrowers!');
+        exit(); // Stop execution
+    }
+
+    // Next, delete associated fines
     $delete_fines_sql = "DELETE FROM fine WHERE book_id='$book_id'";
     $delete_fines_result = mysqli_query($con, $delete_fines_sql);
 
