@@ -1,3 +1,11 @@
+<?php
+    include 'connect.php';
+    $category_id="";
+    $category_Name="";
+    $date_modified="";
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
