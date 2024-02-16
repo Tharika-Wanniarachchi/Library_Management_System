@@ -1,4 +1,35 @@
+<?php
 
+include 'connect.php';
+
+
+if(isset($_POST['submit'])){
+    $category_id=$_POST['category_id'];
+    $category_Name=$_POST['category_Name'];
+    $date_modified=$_POST['date_modified'];
+
+    // Check if the category_already exists in the database
+    $check_query = "SELECT * FROM bookcategory WHERE category_id = '$category_id'";
+    $check_result = mysqli_query($con, $check_query);
+
+    if (mysqli_num_rows($check_result) > 0) {
+        // Book with the same category_book_id already exists
+        echo '<script>alert("BookCategory with the same ID already exists!");</script>';
+    } else {
+        // Insert the new book record
+        $sql = "INSERT INTO bookcategory (category_id, category_Name, date_modified) VALUES ('$category_id', '$category_Name', '$date_modified')";
+        $result = mysqli_query($con, $sql);
+
+        if ($result) {
+            header('location:index.php?success_msg=Your entered data has been successfully saved!');
+        }  else {
+            header('location:add_book.php?add_msg=Failed to add the book!');
+            exit(); // Stop execution
+        }
+    }
+}
+
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -43,6 +74,28 @@
     <!-- Bootstrap JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+2vx2KPScO2L8Lw5VW49pJfNOQIkFwJ8JwCz3Z6" crossorigin="anonymous"></script>
 
-    
+    <script>
+        function validateForm() {
+            var categoryId = document.getElementById("category_id").value.trim();
+            var category_Name = document.getElementById("category_Name").value.trim();
+            var dateModified = document.getElementById("date_modified").value.trim();
+
+            if (categoryId === "" || category_Name === "" || dateModified === "") {
+                alert("Please fill in all fields");
+                return false;
+            }
+
+            var categoryIDRegex = /^C\d{3}$/;
+            if (!categoryIDRegex.test(categoryId)) {
+                alert("Invalid Category ID format. It should be in the 'C<CATEGORY_ID>' format (e.g., C001).");
+                return false;
+            }
+        }
+
+        function closeForm() {
+            alert("Back to the Home page!");
+            window.location.href ='index.php';
+        }
+    </script>
 </body>
 </html>
