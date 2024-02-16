@@ -1,3 +1,57 @@
+<?php
+
+include 'connect.php';
+
+$fine_id = "";
+$book_id = "";
+$member_id = "";
+$fine_amount = "";
+$fine_date_modified = "";
+
+if (isset($_GET['updateid'])) {
+    $fine_id = mysqli_real_escape_string($con, $_GET['updateid']);
+
+    $sql = "SELECT * FROM fine WHERE fine_id='$fine_id' ";
+    $result = $con->query($sql);
+
+    if ($result->num_rows == 1) {
+        $row = $result->fetch_assoc();
+        $fine_id = $row['fine_id'];
+        $book_id = $row['book_id'];
+        $member_id = $row['member_id'];
+        $fine_amount = $row['fine_amount'];
+        $fine_date_modified = $row['fine_date_modified'];
+    }
+}
+if(isset($_POST['update'])) {
+  $fine_id = mysqli_real_escape_string($con, $_POST['fine_id']);
+  $book_id = mysqli_real_escape_string($con, $_POST['book_id']);
+  $member_id = mysqli_real_escape_string($con, $_POST['member_id']);
+  $fine_amount = mysqli_real_escape_string($con, $_POST['fine_amount']);
+  $fine_date_modified = mysqli_real_escape_string($con, $_POST['fine_date_modified']);
+
+    // Check if the member_id exists in the member table
+    $check_member_query = "SELECT * FROM member WHERE member_id = '$member_id'";
+    $check_member_result = mysqli_query($con, $check_member_query);
+
+    if (mysqli_num_rows($check_member_result) == 0) {
+        // Member with the given ID does not exist
+        echo '<script>alert(" You Entered Member ID does not exist!");</script>';
+    }
+    else { 
+
+        $sql = "UPDATE fine SET member_id='$member_id', fine_amount='$fine_amount', fine_date_modified='$fine_date_modified' WHERE fine_id='$fine_id' ";
+
+        if ($con->query($sql)) {
+          header('location:index.php?update_msg=Update Data Succesfully');
+          //echo "Updated successfully";
+      } else {
+          die(mysqli_error($con));
+      }
+      
+    }
+}
+?>
 
 <!doctype html>
 <html lang="en">
