@@ -1,3 +1,54 @@
+<?php
+
+include 'connect.php';
+
+$new_category_id = "";
+$old_category_id ="";
+$category_id ="";
+$date_modified="";
+$category_Name="";
+
+// Fetching member details for update
+if(isset($_GET['updateid'])){
+    $category_id = $_GET['updateid'];
+    $sql = "SELECT * FROM bookcategory WHERE category_id='$category_id'";
+    $result = $con->query($sql);
+
+    if($result->num_rows == 1){
+        $row = $result->fetch_assoc();
+        $old_category_id = $row['category_id'];
+        $category_Name = $row['category_Name'];
+        $date_modified = $row['date_modified'];
+    }
+}
+
+if(isset($_POST['submit'])) {
+    $new_category_id = $_POST['category_id'];
+    $category_Name = $_POST['category_Name'];
+    $date_modified = $_POST['date_modified'];
+
+    // Check if the new bookcategory ID already exists
+    $check_sql = "SELECT COUNT(*) AS count FROM bookcategory WHERE category_id='$new_category_id'";
+    $check_result = mysqli_query($con, $check_sql);
+    $check_row = mysqli_fetch_assoc($check_result);
+
+    if ($check_row['count'] > 0 && $new_category_id !== $old_category_id) {
+        echo "<script>alert('Bookcategory ID already exists!');</script>";
+    } else {
+        $sql = "UPDATE bookcategory SET category_id='$new_category_id', category_Name='$category_Name', date_modified='$date_modified' WHERE category_id='$old_category_id'";
+        $result = mysqli_query($con, $sql);
+
+        if ($result) {
+            header('location:index.php?update_msg=Update Data Successfully');
+            exit(); // Stop execution
+        } else {
+            header('location:update.php?updateid='.$category_id.'&update_msg=Failed to update data!');
+            exit(); // Stop execution
+        }
+    }
+}
+
+?>
 
 
 
@@ -55,7 +106,30 @@
    
 
 
-    
+    <script>
+        function validateForm() {
+            var categoryId = document.getElementById("category_id").value.trim();
+            var category_Name = document.getElementById("category_Name").value.trim();
+            var dateModified = document.getElementById("date_modified").value.trim();
+
+            if (categoryId === "" || category_Name === "" || dateModified === "") {
+                alert("Please fill in all fields");
+                return false;
+            }
+
+            var categoryIDRegex = /^C\d{3}$/;
+            if (!categoryIDRegex.test(categoryId)) {
+                alert("Invalid Category ID format. It should be in the 'C<CATEGORY_ID>' format (e.g., C001).");
+                return false;
+            }
+        }
+
+        function closeForm() {
+            alert("Back to the Home page!");
+            window.location.href ='index.php';
+        }
+    </script>
+
 
 
     </body>
