@@ -1,3 +1,35 @@
+<?php
+
+include 'connect.php';
+
+
+if(isset($_POST['submit'])){
+    $book_id =$_POST['book_id'];
+    $book_name =$_POST['book_name'];
+    $category_id =$_POST['category_id'];
+
+    // Check if the book_id already exists in the database
+    $check_query = "SELECT * FROM book WHERE book_id = '$book_id'";
+    $check_result = mysqli_query($con, $check_query);
+
+    if (mysqli_num_rows($check_result) > 0) {
+        // Book with the same book_id already exists
+        echo '<script>alert("Book with the same ID already exists!");</script>';
+    } else {
+        // Insert the new book record
+        $sql = "INSERT INTO book (book_id, book_name, category_id) VALUES ('$book_id', '$book_name', '$category_id')";
+        $result = mysqli_query($con, $sql);
+
+        if ($result) {
+            header('location:index.php?success_msg=Your entered Book data has been successfully saved!');
+        }  else {
+            header('location:add_book.php?add_msg=Failed to add the book!');
+            exit(); // Stop execution
+        }
+    }
+}
+
+?>
 
 
 <!doctype html>
@@ -35,7 +67,27 @@
                             <label for="category_id">Book Category</label>
                             <select name="category_id" class="form-control mt-2">
                                 <option value="-1">-Select Book Category-</option>
-                           
+                            <?php
+                                $sql = "SELECT category_id, category_Name FROM bookcategory";
+                                $result = $con->query($sql);
+
+                                if ($result->num_rows > 0) {
+                                // output data of each row
+                                while($row = $result->fetch_assoc()) {
+                                
+                            ?>
+
+                                <option value="<?php echo $row['category_id'] ?>"><?php echo $row['category_Name']?></option>
+
+                                <?php
+
+                                }
+                                } else {
+                                echo "0 results";
+                                }
+                        
+                        ?>
+
                             </select>
 
                         </div>
@@ -61,6 +113,36 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
    
 
+    <script>
+         function validateForm() {
+            // Get input values
+            var bookId = document.getElementById("book_id").value;
+            var bookName = document.getElementById("book_name").value;
+            var categoryId = document.getElementsByName("category_id")[0].value;
+
+            // Check if any field is empty
+            if (bookId === "" || bookName === "" || categoryId === "-1") {
+                alert("Please fill in all fields");
+                return false;
+            }
+
+            // Validate Book ID format using a regular expression
+            var bookIdRegex = /^B\d{3}$/;
+            if (!bookIdRegex.test(bookId)) {
+                alert("Invalid Book ID format. It should be in the 'B<BOOK_ID>' format (e.g., F001).");
+                return false;
+            }
+
+            return true;
+        }
+        function closeForm() {
+            
+            alert("Form closed!");
+            window.location.href ='index.php';
+        }
+
+   
+    </script>
 
 
   </body>
