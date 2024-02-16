@@ -1,0 +1,12 @@
+h1,h2,th,label{
+    font-family: poppins;
+}
+.btn_style{
+    width: 100px;
+}
+.btn_text{
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    font-weight: 500;
+}
