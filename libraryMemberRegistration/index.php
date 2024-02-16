@@ -113,7 +113,27 @@
 
 
 
-    <script>
+   <script>
+        function validateForm() {
+        var categoryId = document.getElementById("category_id").value.trim();
+        var category_Name = document.getElementById("category_Name").value.trim();
+        var dateModified = document.getElementById("date_modified").value.trim();
+
+        if (categoryId === "" || category_Name === "" || dateModified === "") {
+            alert("Please fill in all fields");
+            return false;
+        }
+
+        var categoryIDRegex = /^C\d{3}$/;
+        if (!categoryIDRegex.test(categoryId)) {
+            alert("Invalid Category ID format. It should be in the 'C<CATEGORY_ID>' format (e.g., C001).");
+            return false;
+        }
+
+        // Return true if all validations pass
+        return true;
+    }
+
          function deletedata() {
             alert("Do you want to delete data?");
             // Add logic for deleting data here
@@ -122,6 +142,7 @@
             alert("Do you want to update data?");
             // Add logic for updating data here
         }
+    </script>
     </script>
 </body>
 </html>
