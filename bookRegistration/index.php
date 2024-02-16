@@ -11,7 +11,36 @@
 
 </head>
 <body>
+<div class="container">
+        <div class="card my-5 p-5" style="background:#9f9ee7a2;">
+                <div  class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button class="btn btn-secondary my-3"><a href="../loginAndUser/homeInterface.php" class="text-light btn_text btn_back">Back to home</a></button>
+                </div>
+            <div class="card-body">
+                <div class="card-header"style="background:#1B1A55 ; color:white;">
+                    <h1 class="text-center">Book Registration<img src="../img/bookreg.png" alt="bookreg" width="90px" height=""></h1>
+                </div>
+                
+                <button class="btn btn-dark mt-5 "><a href="addbook.php" class="text-light btn_text"><img src="../img/addbook.png" alt="addbook"  width="30px"> Add New Book</a></button>
+                
+                <table class="table table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                        <th scope="col">Book ID</th>
+                        <th scope="col">Book Name</th>
+                        <th scope="col">Book Category</th>
+                        <th scope="col">Operation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
+                       
+                                    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
 <!--Boostrap Jquery-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
