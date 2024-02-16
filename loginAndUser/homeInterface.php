@@ -95,9 +95,9 @@ include 'connect.php';
                             <ul>
                                 <li><a href="user_registration.php"class="ui_a">User Registration</a></li>
                                 <li><a href="../bookRegistration/index.php"class="ui_a">Books Registration</a></li>
-                                <li><a href="../bookcategory/index.html"class="ui_a">Book Category Registration</a></li>
+                                <li><a href="../bookCategoryRegistration/index.php"class="ui_a">Book Category Registration</a></li>
                                 <li><a href="../libraryMemberRegistration/index.php"class="ui_a">Library Member Registration</a></li>
-                                <li><a href="../bookBorrow/index.php"class="ui_a">Book Borrow Details</a></li>
+                                <li><a href="../bookBorrowDetails/index.php"class="ui_a">Book Borrow Details</a></li>
                                 <li><a href="../assignFine/index.php"class="ui_a">Assign Fine</a></li>
                             </ul>
                         </nav>
