@@ -25,14 +25,29 @@
 
                 <center>
                 <div class="my-3" style="color:green; font-size: 18px; font-weight: 500;">
-                    
+                    <?php
+                        if(isset($_GET['update_msg'])){
+                            $display_msg=$_GET['update_msg'];
+                            echo $display_msg;
+                        }
+                    ?>
                 </div>
                 <div class="my-3" style="color:rgb(118, 7, 7);  font-size: 18px; font-weight: 500;">
-                    
+                    <?php
+                        if(isset($_GET['delete_msg'])){
+                            $display_msg=$_GET['delete_msg'];
+                            echo $display_msg;
+                        }
+                    ?>
                 </div>
 
                 <div class="my-3" style="color:green; font-size: 18px; font-weight: 500;">
-                    
+                    <?php
+                        if(isset($_GET['success_msg'])){
+                            $display_msg=$_GET['success_msg'];
+                            echo $display_msg;
+                        }
+                    ?>
                 </div>
 
                 </center>
@@ -46,7 +61,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                    
+                    <?php
+                            $sql = "SELECT * from bookcategory ";
+                            $result=mysqli_query($con,$sql);
+                            if($result){
+                                while($row =mysqli_fetch_assoc($result)){
+                                    $category_id=$row['category_id'];
+                                    $category_Name=$row['category_Name'];
+                                    $date_modified=$row['date_modified'];
+                                    echo '<tr>
+                                    <th scope="row">'.$category_id.'</th>
+                                    <td>'.$category_Name.'</td>
+                                    <td>'.$date_modified.'</td>
+                                    
+                                    <td>
+                                        <button class="btn btn-success" onclick="updatedata()"><a href="update.php? updateid='.$category_id.'"class="text-light btn_text">Update</a></button>
+                                        <button class="btn btn-danger" onclick="deletedata()"><a href="delete.php? deleteid='.$category_id.'"class="text-light btn_text">Delete</a></button>
+                                    </td>
+                                    </tr>';
+                                }
+                            }
+                            ?>
                     </tbody>
                 </table>
             </div>
@@ -60,5 +95,17 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script>
+         function deletedata() {
+            
+            alert("Are You Sure Delete Data?");
+            window.location.href ='index.php';
+        }
+        function updatedata() {
+            
+            alert("Are You Sure Update Data?");
+            window.location.href ='update.php';
+        }
+    </script>
 </body>
 </html>
