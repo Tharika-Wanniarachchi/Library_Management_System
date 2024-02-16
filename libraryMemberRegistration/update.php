@@ -58,14 +58,12 @@ if(isset($_POST['submit'])){
 ?>
 
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="style.css">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -80,22 +78,21 @@ if(isset($_POST['submit'])){
                 <h2 class="text-center">Update Member Details</h2>
             </div>
             <form method="post" onsubmit="return validateForm()" >
-                
                 <div class="form-group">
                     <label for="new_member_id">Member ID</label>
                     <input type="text" class="form-control mt-2" id="new_member_id" name="new_member_id" placeholder="Enter member ID" autocomplete="off" value="<?php echo $old_member_id; ?>">
                 </div>
                 <div class="form-group mt-4">
-                    <label for="first_name"> first_name</label>
-                    <input type="first_name" class="form-control mt-2" id="first_name" name="first_name" placeholder="Enter first_name" autocomplete="off"value="<?php echo $first_name; ?>">
+                    <label for="first_name"> First Name</label>
+                    <input type="text" class="form-control mt-2" id="first_name" name="first_name" placeholder="Enter first name" autocomplete="off" value="<?php echo $first_name; ?>">
                 </div>
                 <div class="form-group mt-4">
-                    <label for="last_name"> last_name</label>
-                    <input type="last_name" class="form-control mt-2" id="last_name" name="last_name" placeholder="Enter last_name" autocomplete="off" value="<?php echo $last_name; ?>">
+                    <label for="last_name"> Last Name</label>
+                    <input type="text" class="form-control mt-2" id="last_name" name="last_name" placeholder="Enter last name" autocomplete="off" value="<?php echo $last_name; ?>">
                 </div>
                 <div class="form-group mt-4">
                     <label for="birthday"> Birthday</label>
-                    <input type="birthday" class="form-control mt-2" id="birthday" name="birthday" placeholder="Enter birthday" autocomplete="off"  value="<?php echo $birthday; ?>">
+                    <input type="date" class="form-control mt-2" id="birthday" name="birthday" placeholder="Enter birthday" autocomplete="off"  value="<?php echo $birthday; ?>">
                 </div>
                 <div class="form-group mt-4">
                     <label for="email">Email</label>
@@ -108,41 +105,51 @@ if(isset($_POST['submit'])){
             </form>
         </div>
     </div>
-
 </div>
 
 <!--Boostrap Jquery-->
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <!--Boostrap Javascript-->
-
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
-
 <script>
     function validateForm() {
-        // Get input values
-        var newMemberId = document.getElementById("new_member_id").value;
-        var first_name = document.getElementById("first_name").value;
-        var last_name = document.getElementById("last_name").value;
-        var birthday = document.getElementById("birthday").value;
-        var email = document.getElementById("email").value;
+        var memberId = document.getElementById("new_member_id").value.trim();
+        var firstName = document.getElementById("first_name").value.trim();
+        var lastName = document.getElementById("last_name").value.trim();
+        var birthday = document.getElementById("birthday").value.trim();
+        var email = document.getElementById("email").value.trim();
 
-        // Check if any field is empty
-        if (newMemberId === "" || first_name === "" || last_name === "" || birthday === "" || email === "") {
+        // Member ID validation
+        var memberIdRegex = /^M\d{3}$/;
+        if (!memberIdRegex.test(memberId)) {
+            alert("Invalid Member ID format. It should be in the 'M<MEMBER_ID>' format (e.g., M001).");
+            return false;
+        }
+
+        // Email validation
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert("Invalid email address format. Please enter a valid email address.");
+            return false;
+        }
+
+        // Other field validations
+        if (firstName === "" || lastName === "" || birthday === "") {
             alert("Please fill in all fields");
             return false;
         }
 
         return true;
     }
+
     function closeForm() {
-        alert("Form closed!");
+        alert("Back to the Home page!");
         window.location.href ='index.php';
     }
 </script>
-
 </body>
 </html>
+
