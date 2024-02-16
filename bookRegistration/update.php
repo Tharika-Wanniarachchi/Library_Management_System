@@ -150,6 +150,12 @@ if(isset($_POST['submit'])) {
                 alert("Please fill in all fields");
                 return false;
             }
+             // Validate Book ID format using a regular expression
+             var bookIdRegex = /^B\d{3}$/;
+            if (!bookIdRegex.test(bookId)) {
+                alert("Invalid Book ID format. It should be in the 'B<BOOK_ID>' format (e.g., F001).");
+                return false;
+            }
 
 
             return true;
