@@ -1,3 +1,9 @@
+<?php
+    include 'connect.php';
+    
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +28,35 @@
                 </div>
                 
                 <button class="btn btn-dark mt-5 "><a href="addbook.php" class="text-light btn_text"><img src="../img/addbook.png" alt="addbook"  width="30px"> Add New Book</a></button>
-                
+                <center>
+                <div class="my-3" style="color:green; font-size: 18px; font-weight: 500;">
+                    <?php
+                        if(isset($_GET['update_msg'])){
+                            $display_msg=$_GET['update_msg'];
+                            echo $display_msg;
+                        }
+                    ?>
+                </div>
+                <div class="my-3" style="color:rgb(118, 7, 7);  font-size: 18px; font-weight: 500;">
+                    <?php
+                        if(isset($_GET['delete_msg'])){
+                            $display_msg=$_GET['delete_msg'];
+                            echo $display_msg;
+                        }
+                    ?>
+                </div>
+
+                <div class="my-3" style="color:green; font-size: 18px; font-weight: 500;">
+                    <?php
+                        if(isset($_GET['success_msg'])){
+                            $display_msg=$_GET['success_msg'];
+                            echo $display_msg;
+                        }
+                    ?>
+                </div>
+
+              
+                </center>
                 <table class="table table-bordered">
                     <thead class="table-light">
                         <tr>
@@ -34,7 +68,28 @@
                     </thead>
                     <tbody>
 
-                       
+                        <?php
+
+                            $sql = "SELECT * from book ";
+                            $result=mysqli_query($con,$sql);
+                            if($result){
+                                while($row =mysqli_fetch_assoc($result)){
+                                    $book_id=$row['book_id'];
+                                    $book_name=$row['book_name'];
+                                    $category_id=$row['category_id'];
+                                    echo '<tr>
+                                    <td scope="row">'.$book_id.'</td>
+                                    <td>'.$book_name.'</td>
+                                    <td>'.$category_id.'</td>
+                                    
+                                    <td>
+                                        <button class="btn btn-success" onclick="updatedata()"><a href="update.php? updateid='.$book_id.'"class="text-light btn_text">Update</a></button>
+                                        <button class="btn btn-danger" onclick="deletedata()"><a href="delete.php? deleteid='.$book_id.'"class="text-light btn_text">Delete</a></button>
+                                    </td>
+                                    </tr>';
+                                }
+                            }
+                        ?>
                                     
                     </tbody>
                 </table>
