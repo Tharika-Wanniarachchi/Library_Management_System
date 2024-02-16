@@ -127,7 +127,51 @@ if(isset($_POST['update'])) {
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
         crossorigin="anonymous"></script>
 
-   
+    <script>
+        function validateForm() {
+            // Get input values
+            var fineId = document.getElementById("fine_id").value;
+            var bookId = document.getElementById("book_id").value;
+            var memberId = document.getElementById("member_id").value;
+            var fineamount = document.getElementById("fine_amount").value;
+            var datemodified = document.getElementById("fine_date_modified").value;
+
+            // Check if any field is empty
+            if (fineId === "" || bookId === "" || memberId === "" || fineamount === "" || datemodified === "") {
+                alert("Please fill in all fields");
+                return false;
+            }
+
+            // Validate Fine ID format using a regular expression
+            var fineIdRegex = /^F\d{3}$/;
+            if (!fineIdRegex.test(fineId)) {
+                alert("Invalid Fine ID format. It should be in the 'F<FINE_ID>' format (e.g., F001).");
+                return false;
+            }
+
+             // Validate fine amount range
+            var fineAmountNumeric = parseFloat(fineamount);
+            if (fineAmountNumeric < 2 || fineAmountNumeric > 500 || isNaN(fineAmountNumeric)) {
+                alert("Fine amount must be between 2 LKR and 500 LKR.");
+                return false;
+            }
+            
+            // Check if member ID exists in the member table
+            if (!checkMemberExists(memberId)) {
+                alert("Member with the entered ID does not exist.");
+                return false;
+            }
+
+            return true;
+        }
+
+        function closeForm() {
+            alert("Form closed!");
+            window.location.href = 'index.php';
+        }
+
+
+    </script>
 </body>
 
 </html>
