@@ -1,3 +1,8 @@
+<?php
+    include 'connect.php';
+?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +30,34 @@
                 </div>
                 <button class="btn btn-dark mt-5 "><a href="addbook.php" class="text-light btn_text"><a href="assignfine.php" class="text-light btn_text"><img src="../img/assign-white.png" alt="addbook"  width="20px"> Assign Fine</a></button>
 
-                
+                <center>
+                <div class="my-3" style="color:green; font-size: 18px; font-weight: 500;">
+                    <?php
+                        if(isset($_GET['update_msg'])){
+                            $display_msg=$_GET['update_msg'];
+                            echo $display_msg;
+                        }
+                    ?>
+                </div>
+                <div class="my-3" style="color:rgb(118, 7, 7);  font-size: 18px; font-weight: 500;">
+                    <?php
+                        if(isset($_GET['delete_msg'])){
+                            $display_msg=$_GET['delete_msg'];
+                            echo $display_msg;
+                        }
+                    ?>
+                </div>
+
+                <div class="my-3" style="color:green; font-size: 18px; font-weight: 500;">
+                    <?php
+                        if(isset($_GET['success_msg'])){
+                            $display_msg=$_GET['success_msg'];
+                            echo $display_msg;
+                        }
+                    ?>
+                </div>
+
+                </center>
                 <table class="table table-bordered">
                     <thead class="table-light">
                         <tr>
@@ -40,7 +72,44 @@
                     </thead>
                     <tbody>
 
-                       
+                        <?php
+
+                            $sql = "SELECT fine.fine_id, member.member_id, member.first_name, book.book_name, fine.fine_amount, fine.fine_date_modified
+                            FROM fine
+                            INNER JOIN member ON fine.member_id = member.member_id
+                            INNER JOIN book ON fine.book_id = book.book_id";
+
+
+                            $result=mysqli_query($con,$sql);
+                            if($result){
+                                while($row =mysqli_fetch_assoc($result)){
+                                    $fine_id = $row['fine_id'];
+                                    $member_id = $row['member_id'];
+                                    $first_name = $row['first_name'];
+                                    $book_name = $row['book_name'];
+                                    $fine_amount = $row['fine_amount'];
+                                    $fine_date_modified = $row['fine_date_modified'];
+                                    
+                                    echo '<tr>
+                                    <th scope="row">'.$fine_id.'</th>
+                                    <td>'.$member_id.'</td>
+                                    <td>'.$first_name.'</td>
+                                    <td>'.$book_name.'</td>
+                                    <td>'.$fine_amount.'</td>
+                                    <td>'.$fine_date_modified.'</td>
+
+                                    <td>
+                                        <button class="btn btn-success" onclick="updatedata()"><a href="update.php? updateid='.$fine_id.'"class="text-light btn_text">Update</a></button>
+                                        <button class="btn btn-danger" onclick="deletedata()"><a href="delete.php? deleteid='.$fine_id.'"class="text-light btn_text">Delete</a></button>
+                                    </td>
+                                    </tr>';
+
+                                }
+                            } else{
+                                // Handle SQL query error
+                                echo "Error: " . mysqli_error($con);
+                            }
+                        ?>
                                     
                     </tbody>
                 </table>
@@ -60,6 +129,17 @@
 
 
 
-    
+    <script>
+         function deletedata() {
+            
+            alert("Are You Sure Delete Data?");
+            window.location.href ='index.php';
+        }
+        function updatedata() {
+            
+            alert("Are You Sure Update Data?");
+            window.location.href ='update.php';
+        }
+    </script>
 </body>
 </html>
