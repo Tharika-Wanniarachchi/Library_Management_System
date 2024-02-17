@@ -1,0 +1,19 @@
+
+h1,h2,th,label{
+    font-family: poppins;
+}
+.btn_style{
+    width: 100px;
+}
+.btn_text{
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.custom-card-header {
+    background: #9f9ee7a2;
+    color: #fff; 
+}
+.form-group{
+    font-weight: 800;
+}
