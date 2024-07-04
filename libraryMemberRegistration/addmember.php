@@ -71,7 +71,7 @@
                         </div>
                         <div class="form-group mt-4">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control mt-2" id="email" name="email" required placeholder="sample@mymail.com" autocomplete="off">
+                            <input type="email" class="form-control mt-2" id="email" name="email" required placeholder="sample@gmail.com" autocomplete="off">
                         </div>
                         
 
