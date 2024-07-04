@@ -4,76 +4,30 @@ session_start();
 
 include 'connect.php'; 
 
-function userfilter($email, $username) {
-    global $conn;
-    $sql = "SELECT * FROM user WHERE email = '$email' OR username = '$username'";
-    $result = $conn->query($sql);
-    return $result->num_rows > 0;
-}
-if ($conn->connect_error) {
-    die("Connection failed");
-}
-
-function chekuid($userID) {
-    return preg_match('/^U\d{3}$/', $userID);
-}
-function mailchek($email) {
-    return filter_var($email, FILTER_VALIDATE_EMAIL);
-}
-function validatePassword($password) {
-    return strlen($password) >= 8;
-}
-
-
-if(isset($_POST['register'])) {
-    $userID = $_POST['userID'];
-    $fn = $_POST['fn'];
-    $lname = $_POST['lname'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $email = $_POST['email'];
-
-    if (validatePassword($password) && mailchek($email) && chekuid($userID) && !userfilter($email, $username)) {    
-        
-        $sql = "INSERT INTO user (user_id, first_name, last_name, username, password, email) VALUES ('$userID', '$fn', '$lname', '$username', '$password', '$email')";
-        if ($conn->query($sql) === TRUE) {
-            echo "Registration successful";            
-        } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;        }
-    } else {
-        echo "Registration failed";
-    }
-
-}
-
-
-
 if(isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
+    $sql = "SELECT * FROM user WHERE username = '$username'";
+    $result = mysqli_query($conn, $sql);
 
-    $sql = "SELECT * FROM user WHERE username = '$username' AND password = '$password'";
-    $result = $conn->query($sql);
-
- if ($result->num_rows > 0) {
-  $_SESSION['username'] = $username;
- $_SESSION['loggedin'] = true;
-   echo "Done";
- header("Location:homeInterface.php");
-  exit;
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $stored_password = $row['password'];
+        $loggin_username = $row['username'];
+        if (password_verify($password, $stored_password)) {
+            header("Location: homeInterface.php");
+            exit;
+        } else {
+            echo "<script>alert('Username and Password Incorrect!');</script>";
+        }
     } else {
         echo "<script>alert('Username and Password Incorrect!');</script>";
     }
 }
 
-        if(isset($_POST['logout'])) {
-      session_unset();
-        session_destroy();
-        echo "Log out Finish";
-}
 ?>
-
+    
 <!doctype html>
 <html lang="en">
 
