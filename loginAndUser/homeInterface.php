@@ -2,11 +2,6 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: index.php");
-    exit;
-}
-
 include 'connect.php'; 
 ?>
 
@@ -106,7 +101,7 @@ include 'connect.php';
             </div>
             <div class="col-md-9">
                 <div  class="d-grid gap-2 d-md-flex justify-content-md-end ">
-                    <button class="btn btn-secondary my-3"><a href="index.php" class="text-light btn_text btn_back">Log Out</a></button>
+                    <button class="btn btn-secondary my-3"><a href="../index.php" class="text-light btn_text btn_back">Log Out</a></button>
                 </div>
                 <center><h1 style="color:#1B1A55; font-family:poppins; margin-top:50px;">Library Management System</h1></center>
                 <img src="../img/main.png" alt="main">
